@@ -1,5 +1,4 @@
 import React from "react"
-import memesData from "../memesData"
 
 export default function Meme() {
     const [meme, setMeme] = React.useState({
@@ -7,12 +6,20 @@ export default function Meme() {
         bottomText: "",
         randomImage: "http://i.imgflip.com/1bij.jpg" 
     })
-    const [allMemeImages, setAllMemeImages] = React.useState(memesData)
+    const [allMemes, setAllMemes] = React.useState([])
+
+    React.useEffect(() => {
+        async function getMemes() {
+            const res = await fetch("https://api.imgflip.com/get_memes")
+            const data = await res.json()
+            setAllMemes(data.data.memes)
+        }
+        getMemes()
+    }, [])
 
     function getMemeImage() {
-        const memesArray = allMemeImages.data.memes
-        const randomNumber = Math.floor(Math.random() * memesArray.length);
-        const url = memesArray[randomNumber].url
+        const randomNumber = Math.floor(Math.random() * allMemes.length);
+        const url = allMemes[randomNumber].url
         setMeme(prevMeme => ({
             ... prevMeme,
             randomImage: url
@@ -30,10 +37,8 @@ export default function Meme() {
   return (
     <main>
       <div className="form">
-        <label> Top Text <br />
-        <input id="top-text" type="text" placeholder="Shut up" className="form--input" name="topText" value={meme.topText} onChange={handleChange} /></label>
-        <label> Bottom Text <br />
-        <input id="bottom-text" type="text" placeholder="and take my money" className="form--input" name="bottomText" value={meme.bottomText} onChange={handleChange} /></label>
+        <input type="text" placeholder="Top Text" className="form--input" name="topText" value={meme.topText} onChange={handleChange} />
+        <input id="bottom-text" type="text" placeholder="Bottom Text" className="form--input" name="bottomText" value={meme.bottomText} onChange={handleChange} />
         <button className="form--button" onClick={getMemeImage}>Get a new meme image 🖼️</button>
       </div>
       <div className="meme">
