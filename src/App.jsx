@@ -3,9 +3,8 @@ import './App.css'
 import Header from '../src/components/Header'
 import Meme from '../src/components/Meme'
 
-function App() {
-
-
+export default function App() {
+  
   return (
     <div>
       <Header />
@@ -14,4 +13,3 @@ function App() {
   )
 }
 
-export default App
