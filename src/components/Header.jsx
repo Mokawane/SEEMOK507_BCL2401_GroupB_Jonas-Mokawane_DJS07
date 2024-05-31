@@ -1,6 +1,9 @@
 import React from "react"
 
-
+/**
+ * Header component for the Meme Generator application.
+ * Displays the application's logo, title, and project information.
+ */
 export default function Header() {
     return (
         <header className="header">
